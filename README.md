@@ -82,10 +82,11 @@ Other compatible agents use the same skill directory with their supported skills
 | --- | --- |
 | **Builds and uploads** | Xcode archives, Xcode Organizer, Xcode Cloud, CI, Transporter/altool, Expo/EAS Build and Submit, build processing, and build selection |
 | **Versioning** | Marketing versions, build numbers, Git commits, TestFlight builds, store versions, later updates, and rebuild decisions |
-| **App Store metadata** | Name, subtitle, description, keywords, screenshots, support URL, privacy policy, EULA, content rights, pricing, availability, and release method |
+| **App Store metadata** | Name, subtitle, description, keywords, screenshots, support URL, privacy policy, EULA, content rights, pricing, availability, release method, and per-field length checks in characters or bytes |
 | **Privacy** | Data-type inventory, SDK collection, purposes, linked data, tracking, privacy labels, and keeping disclosures current |
 | **Permissions** | Photo, camera, location, notifications, and other protected-resource prompts; specific purpose strings and unused permission removal |
-| **Subscriptions and IAP** | Subscription groups, product metadata, localized pricing, review screenshots, paywall requirements, restore purchases, and first-IAP submission |
+| **Subscriptions and IAP** | Subscription groups, product metadata, localized pricing, review screenshots, paywall requirements, restore purchases, first-IAP submission, and backends that must accept App Review's sandbox purchases |
+| **Login and export compliance** | Guideline 4.8 login services, Sign in with Apple across code, the developer portal and the auth provider, and the encryption declaration |
 | **Reviewer access** | Permanent demo accounts, navigation instructions, physical-device recordings, sample data, regional differences, and external services |
 | **Rejections** | Guideline 2.1 information requests, metadata-only fixes, binary defects, unresolved submissions, reviewer replies, and resubmission steps |
 | **Quality assurance** | Testing the exact processed build on supported physical devices, account deletion, purchase flows, legal links, exports, and edge cases |
