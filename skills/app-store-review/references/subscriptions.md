@@ -24,11 +24,11 @@ App Review tests the submitted production build, but its purchases go through Ap
 
 Check, before submitting:
 
-- receipt or transaction validation that tries production first and falls back to sandbox (for the legacy `verifyReceipt` endpoint, retry against sandbox on status `21007`);
-- server-side rules that ignore or restrict sandbox events, such as an allowlist of sandbox tester accounts, a webhook filter that drops `SANDBOX` events, or an environment check in the entitlement logic. Any of these can block the reviewer's account, which will not be on your list;
+- server-side receipt or transaction validation that tries production first and falls back to sandbox when Apple identifies a verified sandbox receipt (for the legacy `verifyReceipt` endpoint, retry against sandbox on status `21007`);
+- server-side rules that ignore or restrict verified sandbox events, such as a webhook filter that drops `SANDBOX` events or an allowlist containing only known tester accounts. These can block the reviewer, whose account is unknown;
 - the entitlement provider's own configuration. For example, RevenueCat's test store key must be replaced with the platform-specific API key before submitting to App Review, and any provider setting that limits sandbox access applies to the reviewer too.
 
-If the team wants to stop real users claiming entitlements through sandbox purchases, decide how the reviewer is let through before tightening it, and keep that rule in place through the whole review. Mention the purchase path in the review notes so the reviewer tries it deliberately.
+Never trust a client-supplied environment, receipt status, product, price, user identifier, or entitlement flag, and do not add an unverified reviewer bypass. Grant access only after Apple or the entitlement provider verifies the signed transaction and confirms the expected bundle identifier and product. Preserve the verified environment in entitlement records so sandbox data cannot be mistaken for a production purchase. If the backend separates sandbox and production entitlements, use the provider's supported App Review handling or a narrowly scoped, server-verified review path and test it with the release build against the production backend. Mention the purchase path in the review notes so the reviewer tries it deliberately.
 
 ## First IAP submission
 

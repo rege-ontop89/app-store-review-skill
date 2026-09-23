@@ -16,7 +16,7 @@ When Sign in with Apple is used, check each layer separately, because each one f
 
 1. **Code:** the button is offered wherever the other login options are, on both sign-up and sign-in screens.
 2. **Apple Developer portal:** the Sign in with Apple capability is enabled on the App ID that matches the bundle identifier, and the build's entitlements include it. For Expo/EAS, confirm the config plugin or `ios.usesAppleSignIn` produced the entitlement, and regenerate native folders if the project keeps an `ios/` directory.
-3. **Auth provider:** a native identity token's audience is the app's bundle identifier, not a web Services ID. Providers such as Supabase and Firebase accept native tokens only when the bundle identifier is registered as an allowed client ID. A provider configured only for web sign-in rejects every native attempt.
+3. **Auth provider:** a native identity token's audience is normally the app's bundle identifier, not a web Services ID. For providers that validate against an allowed audience list, register the native bundle identifier. Supabase, for example, accepts a native `signInWithIdToken` token only when its audience appears in the configured Client IDs. Other providers use their own app and Apple-provider configuration, so follow that provider's native iOS instructions instead of assuming a web Services ID covers native tokens.
 
 Test on a physical device with the release build, including a first sign-in that uses Hide My Email. Account deletion must also work for an account created this way.
 
