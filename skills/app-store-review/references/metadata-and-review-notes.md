@@ -12,6 +12,31 @@ Write for accurate discovery and a quick understanding of the app. Derive claims
 - **Support URL:** a functioning page where a customer can obtain help.
 - **Privacy policy:** a public, app-specific policy matching actual data practices.
 
+## Field limits
+
+Apple counts most fields in characters but keywords and App Review notes in bytes, so accented letters, symbols such as `₦`, and emoji use more than one unit there. Check every drafted field with the bundled script and its field presets:
+
+```bash
+python3 scripts/check_text_limit.py --field subtitle subtitle.txt
+python3 scripts/check_text_limit.py --field keywords keywords.txt
+python3 scripts/check_text_limit.py --field review-notes notes.txt
+```
+
+| Field | Limit | Preset |
+| --- | --- | --- |
+| Name | 30 characters | `name` |
+| Subtitle | 30 characters | `subtitle` |
+| Promotional text | 170 characters | `promotional-text` |
+| Description | 4,000 characters | `description` |
+| What's New | 4,000 characters | `whats-new` |
+| Keywords | 100 bytes | `keywords` |
+| App Review notes | 4,000 bytes | `review-notes` |
+| Reply to App Review | 4,000 characters | `review-reply` |
+
+Limits come from Apple's platform version and app information references (linked below) and can change.
+
+## Subscription terms of use
+
 For apps with auto-renewable subscriptions, confirm that the product-page metadata includes a functional Terms of Use link. When using Apple’s standard EULA, Apple has instructed developers to place this URL in the app description:
 
 https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
@@ -70,3 +95,8 @@ Permanent credentials are provided in the Sign-In Information fields.
 ```
 
 Apple’s reply field has a 4,000-character limit. Keep margin for edits rather than targeting exactly 4,000.
+
+## Official sources
+
+- Apple platform version information (promotional text, description, keywords, What's New, review notes): https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information
+- Apple app information (name, subtitle): https://developer.apple.com/help/app-store-connect/reference/app-information/app-information

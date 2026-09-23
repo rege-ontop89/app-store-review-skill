@@ -7,6 +7,8 @@ Use this for a first release or later App Store update. Verify the current App S
 - Confirm the bundle identifier, marketing version, build number, supported device families, signing, entitlements, encryption declaration, privacy manifest, and release configuration.
 - Identify the actual build and upload path: Xcode, EAS, Xcode Cloud, CI, Transporter, or another supported workflow.
 - Inventory authentication, account deletion, subscriptions, restore purchases, uploads, protected resources, analytics, crash reporting, email, feedback, and backend services.
+- If the app offers a third-party or social login, confirm it also offers an option that satisfies Guideline 4.8, usually Sign in with Apple, and that the export compliance key is declared. See [login-and-export-compliance.md](login-and-export-compliance.md).
+- If paid features are unlocked server-side, confirm the backend accepts App Review's sandbox purchases from the production build. See [subscriptions.md](subscriptions.md).
 - Confirm public legal URLs load without authentication.
 - Test production behavior on every supported device platform. If iPad is enabled, test iPad. Do not assume an iPhone-oriented design disables iPad support; inspect the project configuration.
 

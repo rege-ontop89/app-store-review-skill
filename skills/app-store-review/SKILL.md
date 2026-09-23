@@ -1,10 +1,10 @@
 ---
 name: app-store-review
-description: Prepare, audit, submit, and repair an Apple App Store submission for iOS or iPadOS apps built with Xcode, Expo/EAS, Xcode Cloud, CI, or another supported upload pipeline. Covers App Store Connect metadata, privacy, permissions, subscriptions, reviewer access, rejection responses, and rebuild decisions.
+description: Prepare, audit, submit, and repair an Apple App Store submission for iOS or iPadOS apps built with Xcode, Expo/EAS, Xcode Cloud, CI, or another supported upload pipeline. Covers App Store Connect metadata, privacy, permissions, subscriptions, Sign in with Apple, export compliance, reviewer access, rejection responses, and rebuild decisions. Use when the user mentions App Store Connect, App Review, TestFlight, submitting or uploading an iOS build, an App Review message or information request, a rejection or a guideline number such as Guideline 2.1 or 4.8, "was rejected", "do I need a new build", or IAP and subscriptions not working in review.
 license: MIT
 metadata:
   author: rege-ontop89
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # App Store Review
@@ -33,7 +33,8 @@ Never place passwords, API keys, signing material, private identifiers, or live 
 - For Xcode, EAS, CI, uploads, versioning, and rebuild decisions, read [references/builds-and-updates.md](references/builds-and-updates.md).
 - For listing copy, keywords, screenshots, and review information, read [references/metadata-and-review-notes.md](references/metadata-and-review-notes.md).
 - For privacy labels and system permission prompts, read [references/privacy-and-permissions.md](references/privacy-and-permissions.md).
-- For In-App Purchase or auto-renewable subscriptions, read [references/subscriptions.md](references/subscriptions.md).
+- For In-App Purchase or auto-renewable subscriptions, including App Review's sandbox purchases against a production backend, read [references/subscriptions.md](references/subscriptions.md).
+- For Sign in with Apple and other login-service requirements, or the encryption and export compliance declaration, read [references/login-and-export-compliance.md](references/login-and-export-compliance.md).
 - For a rejection, information request, or unresolved submission, read [references/rejections.md](references/rejections.md).
 
 Load only the references needed for the current request.
@@ -66,4 +67,4 @@ Report:
 - whether a rebuild is required and the exact reason;
 - the precise next build-tool or App Store Connect action.
 
-When drafting text for Apple, keep it factual, reviewer-oriented, and free of marketing language. Validate text limits with `scripts/check_text_limit.py`.
+When drafting text for Apple, keep it factual, reviewer-oriented, and free of marketing language. Validate text limits with `scripts/check_text_limit.py --field <field>`; keywords and review notes are measured in bytes, not characters.
