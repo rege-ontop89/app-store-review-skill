@@ -1,6 +1,10 @@
 ---
 name: expo-app-store-review
 description: Prepare, audit, submit, and repair an Expo/EAS iOS App Store submission, including App Store Connect metadata, privacy disclosures, permissions, subscriptions, reviewer access, rejection responses, and deciding whether a new native build is required.
+license: MIT
+metadata:
+  author: rege-ontop89
+  version: "1.0.0"
 ---
 
 # Expo App Store Review
