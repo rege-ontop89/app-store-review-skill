@@ -1,0 +1,4 @@
+interface:
+  display_name: "Expo App Store Review"
+  short_description: "Ship Expo iOS apps through Apple review"
+  default_prompt: "Use $expo-app-store-review to audit my Expo iOS submission and give me the exact next App Store Connect steps."
