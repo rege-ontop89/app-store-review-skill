@@ -1,111 +1,103 @@
-# Expo App Store Review Agent Skill
+# App Store Review - Agent Skill for AI Coding Assistants
 
-A portable, open-source [Agent Skill](https://agentskills.io/) for taking an Expo/EAS iOS app through App Store Connect, App Review, subscription review, and rejection repair.
+An agent skill that helps developers prepare, submit, and repair iOS App Store submissions, whether the app is built with Xcode, Expo/EAS, Xcode Cloud, CI, or another supported pipeline. Built by [rege-ontop89](https://github.com/rege-ontop89) from the process of shipping Kobo Profit Tracker through its first App Store approval.
 
-It grew from a real first-launch workflow involving EAS Build, TestFlight, auto-renewable subscriptions, privacy disclosures, permission copy, reviewer recordings, metadata rejection, and a successful App Store approval. The repository contains no application credentials or private customer data.
+AI coding assistants are good at building features, but App Store review spans much more than code: signing, builds, App Store Connect metadata, privacy labels, permission prompts, subscriptions, reviewer access, physical-device evidence, and rejection responses. This skill helps an agent inspect the whole submission instead of guessing from one screen or treating every rejection as a reason to rebuild.
 
-## Install with GitHub CLI
+## Background
 
-GitHub CLI 2.90 or later can preview, install, update, and publish Agent Skills for many coding agents.
+This skill was built from a real first App Store launch. The process included an EAS production build, TestFlight testing, auto-renewable subscriptions, privacy questionnaires, content-rights declarations, permission-copy fixes, account-deletion guidance, reviewer credentials, a physical-device recording, a Guideline 2.1 information request, and a metadata rejection for a missing Terms of Use link.
 
-Preview the skill before installing it:
+Those lessons apply beyond Expo. Apple accepts builds uploaded through Xcode, Xcode Cloud, Transporter, command-line tooling, CI systems, and managed services such as EAS. The skill starts by identifying the project’s real build path, then keeps build creation, binary upload, TestFlight, and App Review submission as separate steps.
+
+It uses the [Agent Skills](https://agentskills.io/home) format, so it works with Claude Code, OpenAI Codex, Cursor, GitHub Copilot, Gemini CLI, OpenCode, and other compatible agents.
+
+The guidance is organized into focused reference files that the agent loads only when needed. A metadata rejection loads the rejection workflow. A subscription submission loads the IAP checklist. An Xcode or EAS build question loads the build reference. No wasted context on unrelated parts of the submission.
+
+## Installing App Store Review
+
+### Claude Code
 
 ```bash
-gh skill preview rege-ontop89/expo-app-store-review-skill expo-app-store-review
+npx skills add https://github.com/rege-ontop89/app-store-review-skill --skill app-store-review
 ```
 
-Install it for one coding agent across all of your projects:
+Select **Claude Code** when prompted for the agent platform.
+
+If `npx` is unavailable, install Node.js first with `brew install node` on macOS or download it from [nodejs.org](https://nodejs.org/).
+
+### OpenAI Codex
 
 ```bash
-gh skill install rege-ontop89/expo-app-store-review-skill expo-app-store-review --agent AGENT --scope user
+npx skills add https://github.com/rege-ontop89/app-store-review-skill --skill app-store-review
 ```
 
-Replace `AGENT` with one of these common host identifiers:
+Select **Codex** when prompted for the agent platform.
 
-| Coding agent | `--agent` value |
+### Cursor, GitHub Copilot, Gemini CLI, OpenCode, and others
+
+Use the same command and select your coding agent when prompted:
+
+```bash
+npx skills add https://github.com/rege-ontop89/app-store-review-skill --skill app-store-review
+```
+
+Install globally and non-interactively for several agents at once:
+
+```bash
+npx skills add https://github.com/rege-ontop89/app-store-review-skill \
+  --skill app-store-review \
+  --global \
+  --agent claude-code \
+  --agent codex \
+  --agent cursor \
+  --yes
+```
+
+### Manual Installation for Claude Code
+
+Clone this repository and copy the `skills/app-store-review/` folder to a project or global skills directory:
+
+```bash
+# Project level: applies to one repository
+cp -r skills/app-store-review/ .claude/skills/app-store-review/
+
+# Global: applies to all projects
+cp -r skills/app-store-review/ ~/.claude/skills/app-store-review/
+```
+
+Other compatible agents use the same skill directory with their supported skills location, such as `.agents/skills/`, `.cursor/skills/`, `.github/skills/`, or `.opencode/skills/`.
+
+## Using App Store Review
+
+**Claude Code:** Use `/app-store-review`, or ask naturally: “audit this app before I submit it to Apple,” “help me answer this rejection,” or “do I need a new build?”
+
+**OpenAI Codex:** Use `$app-store-review`, or ask naturally: “check everything required for App Store submission,” “audit my privacy answers,” or “walk me through submitting this Xcode archive.”
+
+**Other agents:** Invoke `app-store-review` through the agent’s skill or slash-command interface, or describe the App Store task normally. Compatible agents can also activate the skill automatically when its description matches the request.
+
+## What It Covers
+
+| Category | What It Handles |
 | --- | --- |
-| Claude Code | `claude-code` |
-| Cursor | `cursor` |
-| GitHub Copilot | `github-copilot` |
-| Gemini CLI | `gemini-cli` |
-| OpenAI Codex | `codex` |
-| OpenCode | `opencode` |
-| Universal Agent Skills location | `universal` |
-
-For example:
-
-```bash
-gh skill install rege-ontop89/expo-app-store-review-skill expo-app-store-review --agent claude-code --scope user
-
-gh skill install rege-ontop89/expo-app-store-review-skill expo-app-store-review --agent cursor --scope user
-```
-
-Run the command once for each coding agent you use. Omit `--scope user` or pass `--scope project` from inside a repository to install it only for that project.
-
-Update an installed copy later with:
-
-```bash
-gh skill update expo-app-store-review
-```
-
-## Manual installation
-
-Copy the complete [`skills/expo-app-store-review`](skills/expo-app-store-review) directory into a skill location supported by your agent. Keep the directory name `expo-app-store-review` because the Agent Skills specification requires it to match the `name` in `SKILL.md`.
-
-Common project locations include:
-
-- `.agents/skills/expo-app-store-review/` for the shared Agent Skills convention
-- `.claude/skills/expo-app-store-review/` for Claude Code
-- `.cursor/skills/expo-app-store-review/` for Cursor
-- `.github/skills/expo-app-store-review/` for GitHub Copilot
-- `.opencode/skills/expo-app-store-review/` for OpenCode
-
-Prefer `gh skill install` when possible because it selects the correct user or project directory for the requested host.
-
-## Use
-
-Ask the agent to use `expo-app-store-review`, or invoke it with the skill/slash-command interface provided by your coding agent. Example:
-
-```text
-Use expo-app-store-review to audit this Expo iOS app and give me the exact steps to submit it to App Review.
-```
-
-The description also lets compatible agents select the skill automatically when the request clearly concerns Expo/EAS App Store submission or rejection handling.
-
-## What it covers
-
-- EAS production builds, TestFlight, and App Store submission boundaries
-- App Store metadata, ASO, reviewer access, and review notes
-- privacy labels and protected-resource purpose strings
-- first-time In-App Purchase and subscription submissions
-- physical-device QA and reviewer recordings
-- information requests, metadata rejections, and binary rejections
-- rebuild decisions, source control, and future version/build updates
-
-The skill directs agents to verify current requirements against official Apple and Expo documentation because policies and App Store Connect screens change.
-
-## Repository structure
-
-```text
-skills/expo-app-store-review/
-├── SKILL.md
-├── agents/openai.yaml
-├── references/
-│   ├── eas-builds-and-updates.md
-│   ├── metadata-and-review-notes.md
-│   ├── privacy-and-permissions.md
-│   ├── rejections.md
-│   ├── submission-workflow.md
-│   └── subscriptions.md
-└── scripts/check_text_limit.py
-```
-
-`SKILL.md`, `references/`, and `scripts/` follow the open Agent Skills format. `agents/openai.yaml` adds optional Codex display metadata and is ignored by other hosts.
+| **Builds and uploads** | Xcode archives, Xcode Organizer, Xcode Cloud, CI, Transporter/altool, Expo/EAS Build and Submit, build processing, and build selection |
+| **Versioning** | Marketing versions, build numbers, Git commits, TestFlight builds, store versions, later updates, and rebuild decisions |
+| **App Store metadata** | Name, subtitle, description, keywords, screenshots, support URL, privacy policy, EULA, content rights, pricing, availability, and release method |
+| **Privacy** | Data-type inventory, SDK collection, purposes, linked data, tracking, privacy labels, and keeping disclosures current |
+| **Permissions** | Photo, camera, location, notifications, and other protected-resource prompts; specific purpose strings and unused permission removal |
+| **Subscriptions and IAP** | Subscription groups, product metadata, localized pricing, review screenshots, paywall requirements, restore purchases, and first-IAP submission |
+| **Reviewer access** | Permanent demo accounts, navigation instructions, physical-device recordings, sample data, regional differences, and external services |
+| **Rejections** | Guideline 2.1 information requests, metadata-only fixes, binary defects, unresolved submissions, reviewer replies, and resubmission steps |
+| **Quality assurance** | Testing the exact processed build on supported physical devices, account deletion, purchase flows, legal links, exports, and edge cases |
 
 ## Contributing
 
-Issues and pull requests are welcome. Keep guidance grounded in official Apple, Expo, or coding-agent documentation, and never commit reviewer credentials, API keys, signing material, or private application data.
+Contributions, corrections, and improvements are very welcome. App Store Connect screens and review requirements change, and build pipelines vary across native and cross-platform projects. If you encounter a repeatable submission issue or rejection pattern, please add it with an official source where possible.
+
+See [CONTRIBUTING.md](https://github.com/rege-ontop89/app-store-review-skill/blob/main/CONTRIBUTING.md) for guidelines.
 
 ## License
 
-MIT
+App Store Review is available under the MIT License. See [LICENSE](https://github.com/rege-ontop89/app-store-review-skill/blob/main/LICENSE) for details.
+
+Created by [rege-ontop89](https://github.com/rege-ontop89) from the experience of taking Kobo Profit Tracker through its first App Store review and approval.

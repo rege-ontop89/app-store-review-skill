@@ -1,0 +1,4 @@
+interface:
+  display_name: "App Store Review"
+  short_description: "Ship iOS apps through Apple review"
+  default_prompt: "Use $app-store-review to audit my iOS submission and give me the exact next build and App Store Connect steps."
